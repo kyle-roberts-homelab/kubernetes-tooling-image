@@ -7,7 +7,7 @@ jobs:
 
   release-image-to-github:
     name: Release Image To Github Packages
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
 
