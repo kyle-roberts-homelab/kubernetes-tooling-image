@@ -1,0 +1,30 @@
+name: Image Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  release-image-to-github:
+    name: Release Image To Github Packages
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        env:
+          IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+        run: |
+          IMAGE_FULL_NAME=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:latest
+          docker build -t $IMAGE_FULL_NAMEE .
+      
+      - name: Push Docker image
+        run: |
+          IMAGE_FULL_NAME=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:latest
+          docker push $IMAGE_FULL_NAME
