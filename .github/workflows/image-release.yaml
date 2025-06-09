@@ -25,6 +25,8 @@ jobs:
           docker build -t $IMAGE_FULL_NAME .
       
       - name: Push Docker image
+        env:
+          IMAGE_NAME: ${{ vars.IMAGE_NAME }}
         run: |
           IMAGE_FULL_NAME=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:latest
           docker push $IMAGE_FULL_NAME
